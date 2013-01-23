@@ -1,0 +1,58 @@
+﻿<Window x:Class="TestDragDropManager.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls"
+        xmlns:telerik="clr-namespace:Telerik.Windows.DragDrop;assembly=Telerik.Windows.Controls"
+        xmlns:testDragDropManager="clr-namespace:TestDragDropManager"
+        x:Name="AppWindow"
+        Title="MainWindow"
+        Width="525"
+        Height="350">
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.Resources>
+            <Style TargetType="controls:RadListBoxItem">
+                <Setter Property="telerik:DragDropManager.AllowCapturedDrag" Value="True" />
+            </Style>
+            <DataTemplate x:Key="ApplicationTemplate" DataType="testDragDropManager:ApplicationInfo">
+                <StackPanel Orientation="Horizontal">
+                    <Image Width="72"
+                           Height="72"
+                           Source="{Binding IconPath}" />
+                    <TextBlock Margin="5"
+                               VerticalAlignment="Center"
+                               Text="{Binding Name}" />
+                </StackPanel>
+            </DataTemplate>
+            <DataTemplate x:Key="ApplicationTemplateDragged" DataType="testDragDropManager:ApplicationInfo">
+                <StackPanel Orientation="Vertical">
+                    <Image Width="50"
+                           Height="50"
+                           Source="{Binding IconPath}" />
+                    <TextBlock Margin="5"
+                               VerticalAlignment="Center"
+                               Text="{Binding Name}" />
+                    <TextBlock Margin="5"
+                               VerticalAlignment="Center"
+                               Text="{Binding Author}" />
+                </StackPanel>
+            </DataTemplate>
+        </Grid.Resources>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <controls:RadListBox x:Name="ApplicationListLeft"
+                             Grid.Column="0"
+                             AllowDrop="True"
+                             ItemTemplate="{StaticResource ApplicationTemplate}"
+                             ItemsSource="{Binding ElementName=AppWindow,
+                                                   Path=SourceLeft}" />
+        <controls:RadListBox x:Name="ApplicationListRight"
+                             Grid.Column="1"
+                             AllowDrop="True"
+                             Background="Gray"
+                             ItemTemplate="{StaticResource ApplicationTemplate}"
+                             ItemsSource="{Binding ElementName=AppWindow,
+                                                   Path=SourceRight}" />
+    </Grid>
+</Window>
